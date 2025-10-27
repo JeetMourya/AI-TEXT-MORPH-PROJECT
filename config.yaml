@@ -1,0 +1,23 @@
+models:
+  summarization:
+    bart:
+      name: facebook/bart-large-cnn
+      max_length: 1024
+      default_max_summary: 150
+      default_min_summary: 30
+    t5:
+      name: t5-small
+      max_length: 512
+      default_max_summary: 120
+      default_min_summary: 20
+
+processing:
+  extractive:
+    num_sentences: 3
+  abstractive:
+    max_length: 250
+    min_length: 30
+
+api:
+  timeout: 60
+  retry_attempts: 3
