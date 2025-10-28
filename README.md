@@ -164,14 +164,6 @@ Improving documentation
 📄 License
 This project is open source and available under the MIT License.
 
-🤝 Support
-For support, email or create an issue in the repository.
-
-⭐ If you find this project useful, please give it a star on GitHub!
-
-text
-
-ये README.md आपके project को professionally present करेगा! इसे add करने के लिए:
 
 ```bash
 git add README.md
