@@ -56,24 +56,27 @@ It seamlessly integrates <b>Hugging Face Inference API</b> and <b>Groq API</b> w
 
 ## 📁 Project Structure
 
+```
 AI-TEXT-MORPH-PROJECT/
 ├── mvp/
-│ ├── init.py
-│ ├── abstractive.py # Abstractive summarization
-│ ├── extractive.py # Extractive summarization
-│ ├── parapharsing.py # Text paraphrasing
-│ ├── mvp_pipeline.py # Main pipeline
-│ └── test_run.py # Test scripts
+│   ├── __init__.py
+│   ├── abstractive.py       # Abstractive summarization
+│   ├── extractive.py        # Extractive summarization
+│   ├── parapharsing.py      # Text paraphrasing
+│   ├── mvp_pipeline.py      # Main pipeline
+│   └── test_run.py          # Test scripts
 │
-├── simple_app.py # CLI version
-├── ui_app.py # Streamlit web app
-├── config.yaml # Configuration file
-├── requirements.txt # Dependencies
-├── .env.example # API key template
+├── simple_app.py            # CLI version
+├── ui_app.py                # Streamlit web app
+├── config.yaml              # Configuration file
+├── requirements.txt         # Dependencies
+├── .env.example             # API key template
 └── README.md
+```
 
 
 ---
+
 
 ## ⚙️ Installation
 
