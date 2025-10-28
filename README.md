@@ -126,7 +126,11 @@ pipeline = SummarizationPipeline(hf_api_key="your_hf_key")
 abstractive = pipeline.summarize(text, method="abstractive")
 paraphrased = pipeline.paraphrase("Sample text", 2)
 
-⚙️ Configuration Example (config.yaml)
+```
+
+
+## ⚙️ Configuration Example (config.yaml)
+```
   summarization:
   max_length: 200
   min_length: 30
@@ -144,7 +148,10 @@ paraphrasing:
 ✅ Secure Environment Variable Management
 ✅ Streamlit Interface for Easy Interaction
 
-👨‍💻 Developer
+```
+
+## 👨‍💻 Developer 
+```
 Developed by: Jeet Mourya
 💡 AI Enthusiast & Full-Stack Developer
 📧 jeetmourya7898@gmail.com
@@ -160,48 +167,10 @@ Suggesting new features
 Submitting pull requests
 
 Improving documentation
+```
 
-📄 License
+
+## 🪪 License
+```
 This project is open source and available under the MIT License.
-
-
-```bash
-git add README.md
-git commit -m "Add professional README with project details and developer information"
-git push origin main# AI Text Summarizer & Paraphraser
-
-A powerful web application for text summarization and paraphrasing using Hugging Face Inference API.
-
-## Features
-
-- **Text Summarization**: Both extractive and abstractive methods
-- **Text Paraphrasing**: Rewrite text while preserving meaning
-- **Multiple Length Options**: Short, medium, and long summaries
-- **Download Results**: Save summaries and paraphrased text as files
-- **No Local Models**: Uses Hugging Face Inference API
-
-## Installation
-
-1. Clone the repository
-2. Create virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate# AI Text Summarizer & Paraphraser
-
-A powerful web application for text summarization and paraphrasing using Hugging Face Inference API.
-
-## Features
-
-- **Text Summarization**: Both extractive and abstractive methods
-- **Text Paraphrasing**: Rewrite text while preserving meaning
-- **Multiple Length Options**: Short, medium, and long summaries
-- **Download Results**: Save summaries and paraphrased text as files
-- **No Local Models**: Uses Hugging Face Inference API
-
-## Installation
-
-1. Clone the repository
-2. Create virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
