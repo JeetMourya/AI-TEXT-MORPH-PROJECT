@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # YOUR PERMANENT GROQ API KEY
-GROQ_API_KEY = "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"
+GROQ_API_KEY = "gsk_cB3ScHxopvjprVTUbRLdWGdyb3FYxvNtrg0AZS4nTS4Xe01RBdwAA"
 
 def clean_duplicate_text(text):
     """Remove duplicate sentences from text"""
