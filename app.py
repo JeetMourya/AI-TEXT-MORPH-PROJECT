@@ -28,6 +28,33 @@ from tm_ui import api_status, helpers, theme
 # Load environment variables from src folder (unchanged)
 env_path = src_path / ".env"
 load_dotenv(dotenv_path=env_path)
+try:
+    if not os.getenv("HF_API_KEY"):
+        hf_key = st.secrets.get("HF_TOKEN") or st.secrets.get("HF_API_KEY")
+        if hf_key:
+            os.environ["HF_API_KEY"] = hf_key
+
+    if not os.getenv("GROQ_API_KEY"):
+        groq_key = st.secrets.get("GROQ_API_KEY")
+        if groq_key:
+            os.environ["GROQ_API_KEY"] = groq_key
+
+except Exception as e:
+    print(f"Cloud secrets loading issue: {e}")
+
+try:
+    if not os.getenv("HF_API_KEY"):
+        hf_key = st.secrets.get("HF_API_KEY")
+        if hf_key:
+            os.environ["HF_API_KEY"] = hf_key
+
+    if not os.getenv("GROQ_API_KEY"):
+        groq_key = st.secrets.get("GROQ_API_KEY")
+        if groq_key:
+            os.environ["GROQ_API_KEY"] = groq_key
+
+except Exception as e:
+    print(f"Cloud secrets loading issue: {e}")
 
 try:
     if not os.getenv("GROQ_API_KEY"):
