@@ -1,222 +1,246 @@
----
-
-# 🔮 Text Morph - Advanced Text Summarization & Paraphrasing
-
 <div align="center">
 
-![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
-![Streamlit](https://img.shields.io/badge/streamlit-1.28+-FF4B4B.svg?style=flat\&logo=streamlit\&logoColor=white)
-![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-API-yellow.svg)
-![NLP](https://img.shields.io/badge/NLP-BART%20%7C%20LLaMA-green.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+# TextMorph
 
-*A sleek, AI-driven web app for intelligent text summarization and paraphrasing using state-of-the-art language models.*
+### AI-Powered Text Summarization & Paraphrasing System
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://textmorph-jeet.streamlit.app/)
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq%20API-000000?style=flat)
+![Hugging Face](https://img.shields.io/badge/Hugging%20Face%20API-FFD21E?style=flat&logoColor=black)
+
+*Summarize and paraphrase text, documents and spoken input through a clean, responsive web interface.*
+
+[Live Demo](https://textmorph-jeet.streamlit.app/) · [Source Code](https://github.com/JeetMourya/AI-TEXT-MORPH-PROJECT) · [Report an Issue](https://github.com/JeetMourya/AI-TEXT-MORPH-PROJECT/issues)
 
 </div>
+
+---
+
+## 📖 Project Overview
+
+**TextMorph** is a Streamlit web application developed as a B.Tech 5th-semester Cornerstone Project. It condenses long text into summaries and rewrites text in different words while keeping the original meaning.
+
+Input can be typed or pasted text, an uploaded PDF, DOCX or TXT file, or speech dictated through the browser. Each result comes with word, character and sentence counts, compression figures and processing time, all calculated from the actual output.
+
+Two summarization approaches are available:
+
+- **Extractive**: selects the most important sentences from the original text.
+- **Abstractive**: generates a new summary with an AI language model.
+
+## 🌐 Live Demo
+
+**https://textmorph-jeet.streamlit.app/**
+
+The demo depends on external AI APIs. If it is slow or returns an error, open **API / Service Status** in the sidebar for guidance.
 
 ## 📸 Screenshots
 
-Preview of the Text Morph interface:
+![TextMorph interface](assets/screenshot1.png)
+![TextMorph interface](assets/screenshot2.png)
 
-![Interface](assets/screenshot1.png)
-![Interface](assets/screenshot2.png)
+## ✨ Key Features
 
-## 📋 Table of Contents
+| Area | What it does |
+|------|--------------|
+| **Summarization** | Extractive and abstractive modes with Short, Medium and Long length options |
+| **Paraphrasing** | Rewrites text using an AI model and returns multiple rewritten versions |
+| **Document upload** | Extracts text from PDF, DOCX and TXT files, then lets you review it before processing |
+| **Long-text handling** | Optionally splits long text into sections, processes each, and combines the results |
+| **Voice input** | Dictation through the browser's speech recognition, with an editable transcript |
+| **Dashboard** | Session statistics and a history of recent processing runs |
+| **API / Service Status** | Separate checks for key presence, token verification and the last real request |
+| **Export** | Copy the output or download it as a `.txt` file |
+| **Interface** | Dark and light themes, sidebar navigation, responsive layout |
+| **Text analysis** | Word, character and sentence counts, compression or length change, and processing time |
 
-* [🎯 Overview](#-overview)
-* [✨ Features](#-features)
-* [🛠️ Technologies Used](#️-technologies-used)
-* [🤖 AI Models](#-ai-models)
-* [🚀 Quick Start](#-quick-start)
-* [🔄 Usage](#-usage)
-* [📈 Project Structure](#-project-structure)
-* [🎨 UI Features](#-ui-features)
-* [🤝 Contributing](#-contributing)
-* [📄 License](#-license)
+## 🧠 AI Architecture and Backend
 
-## 🎯 Overview
+The Streamlit front end (`app.py` and `tm_ui/`) sends text to a single backend class, `SummarizationPipeline`, defined in `src/combinedPipeline.py`.
 
-**Text Morph** is an AI-powered platform that simplifies long texts into concise summaries and rephrased versions. It integrates **BART** and **LLaMA 3.1** models to deliver accurate and fluent text transformation.
+| Task | Backend |
+|------|---------|
+| Extractive summarization | The project's extractive summarizer in `src/` |
+| Abstractive summarization | **Groq API** with the **`openai/gpt-oss-20b`** model |
+| Paraphrasing | **Groq API** with the **`openai/gpt-oss-20b`** model |
+| API token check | **Hugging Face API** (token verification on the status page) |
 
-### Core Functions
+```mermaid
+flowchart TD
+    A["User input: typed text, PDF/DOCX/TXT upload, voice transcript"] --> B["Streamlit UI (app.py, tm_ui)"]
+    B --> P["Text extraction, counters and chunking (tm_ui/helpers.py)"]
+    P --> C{"Selected task"}
+    C -->|Summarize| D["SummarizationPipeline (src/combinedPipeline.py)"]
+    C -->|Paraphrase| D
+    D --> E["Extractive summarizer"]
+    D --> F["Groq API: openai/gpt-oss-20b (abstractive summary, paraphrasing)"]
+    E --> G["Output, metrics, TXT download, dashboard history"]
+    F --> G
+    B -.->|Token verification| H["Hugging Face API"]
+```
 
-1. **Summarization** – Condenses long documents using both extractive and abstractive techniques.
-2. **Paraphrasing** – Rewrites content while preserving original meaning.
-
-The application features a modern UI with smooth animations and responsive design—ideal for students, researchers, writers, and professionals.
-
-## ✨ Features
-
-### 🎨 Modern Interface
-
-* Elegant gradient design with purple tones and smooth transitions
-* Tab-based navigation: *Process Text*, *Examples*, and *How It Works*
-* Fully responsive layout for all screen sizes
-* Real-time metrics: word/character count and reduction rate
-* Smooth hover and animation effects
-
-### 🤖 AI Intelligence
-
-* **Dual Summarization Modes:**
-
-  * *Extractive* – Selects key sentences.
-  * *Abstractive* – Generates natural summaries using AI.
-* **Smart Paraphrasing:** Produces fluent alternatives while maintaining meaning.
-* **Adjustable Summary Lengths:** Short, Medium, and Long options.
-
-### ⚡ Performance & Convenience
-
-* Quick responses (2–5 seconds)
-* No local model setup required
-* Download outputs as `.txt` files
-* Real-time API connectivity status
+> Text sent for abstractive summarization or paraphrasing is processed by the Groq API, so an internet connection and a valid API key are required for those features.
 
 ## 🛠️ Technologies Used
 
-| Technology                                                                                              | Purpose                   |
-| ------------------------------------------------------------------------------------------------------- | ------------------------- |
-| ![Python](https://img.shields.io/badge/Python-3776AB?style=flat\&logo=python\&logoColor=white)          | Core programming language |
-| ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat\&logo=streamlit\&logoColor=white) | Web app framework         |
-| ![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-FFD21E?style=flat)                     | API for BART model        |
-| ![GROQ](https://img.shields.io/badge/GROQ-000000?style=flat\&logo=groq\&logoColor=white)                | LLaMA model inference API |
-| ![Requests](https://img.shields.io/badge/Requests-2CA5E0?style=flat)                                    | API calls                 |
-| ![Python-dotenv](https://img.shields.io/badge/python--dotenv-ECD53F?style=flat)                         | Environment management    |
-| ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat\&logo=css3\&logoColor=white)                 | Styling and animations    |
+| Technology | Purpose |
+|------------|---------|
+| Python | Core language |
+| Streamlit | Web application framework |
+| Groq API | Abstractive summarization and paraphrasing (`openai/gpt-oss-20b`) |
+| Hugging Face API | API token verification and connectivity check |
+| Requests | HTTP calls for the status check |
+| python-dotenv | Loading API keys from a local `.env` file |
+| PyPDF | Text extraction from PDF files |
+| python-docx | Text extraction from DOCX files |
+| NLTK, Scikit-learn, NumPy | Text processing for the extractive summarizer |
+| Web Speech API (browser) | Voice input |
 
-## 🤖 AI Models
+## 🔄 Application Workflow
 
-### BART (Bidirectional and Auto-Regressive Transformers)
+1. Provide text by typing or pasting, uploading a document, or dictating through the microphone.
+2. Review and edit the text. The app shows live word, character and sentence counts.
+3. Choose an action: summarize (method and length) or paraphrase.
+4. For long documents, optionally enable section-based processing.
+5. The request goes through `SummarizationPipeline` to the extractive summarizer or the Groq model.
+6. The result appears with metrics. Copy it or download it as `.txt`.
+7. The run is added to the Dashboard history and the API status is updated.
 
-* **By:** Facebook AI Research
-* **Model:** `facebook/bart-large-cnn`
-* **Parameters:** 406M
-* **Use:** Summarization
-* **Highlights:** Context-aware, accurate, and versatile
-
-### LLaMA 3.1 (Large Language Model Meta AI)
-
-* **By:** Meta AI
-* **Model:** `llama-3.1-8b-instant`
-* **Parameters:** 8B
-* **Use:** Paraphrasing
-* **Highlights:** Fluent text generation, fast inference, semantic preservation
-
-## 🚀 Quick Start
-
-### Requirements
-
-* Python 3.8+
-* Hugging Face API Key
-* GROQ API Key
-
-### Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/kiruthikkumar05/Textmorph-AI.git
-cd Textmorph-AI
-
-# Create a virtual environment
-python -m venv venv
-venv\Scripts\activate   # Windows
-# or
-source venv/bin/activate  # macOS/Linux
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### Configure API Keys
-
-Create a `.env` file in the project root:
-
-```env
-HF_API_KEY=your_huggingface_api_key
-GROQ_API_KEY=your_groq_api_key
-```
-
-Get your keys from:
-
-* [Hugging Face](https://huggingface.co/settings/tokens)
-* [GROQ](https://console.groq.com/keys)
-
-### Launch
-
-```bash
-streamlit run app.py
-```
-
-## 🔄 Usage
-
-1. **Run the App**
-
-   ```bash
-   streamlit run app.py
-   ```
-2. **Access in Browser** – Visit `http://localhost:8501`
-3. **Select Settings** – Choose summarization mode and summary length
-4. **Process Text** – Paste text and click **Summarize** or **Paraphrase**
-5. **Download Output** – Save results as `.txt`
-6. **Explore Tabs** – Examples and explanations available for guidance
-
-## 📈 Project Structure
+## 📁 Project Folder Structure
 
 ```
-TEXT_MORPH/
-├── assets/              # UI assets and screenshots
-├── configure/           # Configuration files
-├── docs/                # Documentation
-├── src/                 # Core application code
-├── app.py               # Main Streamlit app
-├── requirements.txt     # Dependencies
+AI-TEXT-MORPH-PROJECT/
+├── .devcontainer/        # Dev container configuration
+├── assets/               # Screenshots
+├── components/
+│   └── voice_input/
+│       └── index.html    # Browser speech-recognition component
+├── configure/            # Configuration files
+├── docs/                 # Documentation
+├── src/
+│   ├── combinedPipeline.py   # SummarizationPipeline (backend entry point)
+│   └── ...                   # Summarizer and paraphraser modules
+├── tm_ui/
+│   ├── __init__.py
+│   ├── api_status.py     # API status checks and error classification
+│   ├── helpers.py        # Counters, chunking, document extraction, HTML helpers
+│   └── theme.py          # Theme and styling
 ├── .gitignore
+├── app.py                # Streamlit application
+├── requirements.txt
 └── README.md
 ```
 
-## 🎨 UI Features
+## 🚀 Installation and Local Setup
 
-* Gradient background header with elegant branding
-* Sidebar with configuration panel, API status, and quick stats
-* Responsive two-column layout for input and output
-* Animated feature cards and smooth transitions
-* Download and export integration
-* Professional color scheme with rounded design elements
+**Prerequisites:** Python 3.10 or newer (recommended), a Groq API key and a Hugging Face token.
 
-## 🤝 Contributing
+```bash
+# 1. Clone the repository
+git clone https://github.com/JeetMourya/AI-TEXT-MORPH-PROJECT.git
+cd AI-TEXT-MORPH-PROJECT
 
-Contributions are welcome!
+# 2. Create and activate a virtual environment
+python -m venv venv
+venv\Scripts\activate          # Windows
+# source venv/bin/activate     # macOS / Linux
 
-1. 🍴 Fork the repository
-2. 🌿 Create a branch (`git checkout -b feature/YourFeature`)
-3. 💾 Commit your changes (`git commit -m "Add YourFeature"`)
-4. 📤 Push to the branch (`git push origin feature/YourFeature`)
-5. 🔄 Submit a Pull Request
+# 3. Install dependencies
+pip install -r requirements.txt
 
-### Ideas for Improvement
+# 4. Create src/.env (see the next section), then run
+streamlit run app.py
+```
 
-* 🌙 Dark mode
-* 🌍 Multi-language support
-* 📄 File upload (PDF/DOCX)
-* 📊 Batch text processing
-* 📝 History tracking
-* 🎨 Theme customization
-* 🤖 Additional AI models
-* 📱 PWA support
+Open `http://localhost:8501` in your browser.
 
-## 📄 License
+## 🔑 Environment Variables and API Configuration
 
-Licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+The app loads keys from **`src/.env`**. Create this file locally:
+
+```env
+HF_API_KEY=your_huggingface_token
+GROQ_API_KEY=your_groq_api_key
+```
+
+| Variable | Purpose | Get a key |
+|----------|---------|-----------|
+| `HF_API_KEY` | Hugging Face token (required to start the app) | https://huggingface.co/settings/tokens |
+| `GROQ_API_KEY` | Groq API key for abstractive summarization and paraphrasing | https://console.groq.com/keys |
+
+> ⚠️ **Never commit `.env` to GitHub.** Confirm that `.env` is listed in `.gitignore`. If a real key was ever pushed, revoke it and create a new one.
+
+## ☁️ Streamlit Cloud Deployment
+
+1. Push the repository to GitHub without any `.env` file.
+2. On [Streamlit Community Cloud](https://share.streamlit.io), create a new app from this repository.
+3. Set the branch to `main` and the main file path to `app.py`.
+4. Open **Advanced settings → Secrets** and add:
+
+```toml
+HF_API_KEY = "your_huggingface_token"
+GROQ_API_KEY = "your_groq_api_key"
+```
+
+5. Deploy. The app reads these values from Streamlit secrets when no `.env` file is present. The Hugging Face token can also be stored under the name `HF_TOKEN`.
+
+## 🧭 How to Use the Application
+
+1. **Dashboard:** open a tool and review session statistics and recent activity.
+2. **Text Summarization:** paste text, choose *Extractive* or *Abstractive*, choose a length, and click **Generate summary**.
+3. **Text Paraphrasing:** paste text and click **Paraphrase text**.
+4. **Document Processing:** upload a PDF, DOCX or TXT file, check the extracted text, choose *Summarize* or *Paraphrase*, and optionally enable section-based processing for long documents.
+5. **Voice Input:** pick a language, click the microphone, speak, edit the transcript, then send it to summarization or paraphrasing.
+6. **Output:** use **Copy output** or **Download .txt**, or **Clear output** to reset.
+
+## 📡 API / Service Status
+
+The **API / Service Status** page keeps three checks separate:
+
+| Check | Meaning |
+|-------|---------|
+| **API key configured** | A key value exists. It says nothing about validity. |
+| **Connection verified** | Hugging Face accepted the token when **Verify connection** was clicked. |
+| **Last real request** | Whether the most recent summarize or paraphrase request succeeded. |
+
+Failures are classified as invalid key, rate limit reached, network error or API unavailable, each with retry guidance. Token verification does not prove that the Groq model is reachable. Only a successful real request does.
+
+## ⚠️ Limitations and Future Improvements
+
+**Current limitations**
+
+- Abstractive summarization and paraphrasing need internet access and depend on external API availability and rate limits.
+- PDF extraction works only for text-based PDFs. Scanned documents need OCR, which is not included. Legacy `.doc` files are not supported.
+- Voice input works in Chromium-based browsers such as Chrome and Edge. Recognition is performed by the browser's speech service, not by TextMorph.
+- Dashboard history is stored in the browser session only and resets on refresh.
+- The status page verifies the Hugging Face token. The Groq key is checked only through real requests.
+
+**Possible improvements**
+
+- OCR for scanned documents.
+- Paraphrasing style presets (for example academic or concise).
+- Persistent history and batch processing.
+- Multi-language summarization.
+- Automated tests and CI.
+
+## 🔒 Security Notes
+
+- API keys are read from `src/.env` or Streamlit secrets and are never displayed in the interface.
+- Keep `.env` out of version control and rotate any key that has been exposed.
+- Text submitted for abstractive summarization or paraphrasing is sent to the Groq API. Do not submit confidential or personal documents unless this is acceptable.
+- With voice input, the browser may send audio to its speech-recognition provider. TextMorph does not record or store audio.
+- Uploaded documents are processed in the app session for text extraction.
+
+## 👥 Contributors / Author
+
+Developed by **Jeet Mourya** ([@JeetMourya](https://github.com/JeetMourya)) and **Karan** as a B.Tech 5th-semester Cornerstone Project.
 
 ---
 
 <div align="center">
 
-### 🌟 If you found this project helpful, please star the repo! ⭐
-
-**Built with ❤️ | Powered by AI**
-
-[Report Bug](https://github.com/kiruthikkumar05/Textmorph-AI/issues) · [Request Feature](https://github.com/kiruthikkumar05/Textmorph-AI/issues)
+**TextMorph – AI-Powered Text Summarization & Paraphrasing System**
 
 </div>
-
----
