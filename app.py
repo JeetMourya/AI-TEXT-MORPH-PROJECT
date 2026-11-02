@@ -13,7 +13,6 @@ from datetime import datetime
 from pathlib import Path
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 # Add src folder to Python path (unchanged from the original app)
 src_path = Path(__file__).parent / "src"
@@ -79,7 +78,6 @@ NAV_PAGES = [
     "Text Summarization",
     "Text Paraphrasing",
     "Document Processing",
-    "Voice Input",
     "About TextMorph",
     "API / Service Status",
 ]
@@ -88,11 +86,9 @@ NAV_ICONS = {
     "Text Summarization": "summarize",
     "Text Paraphrasing": "edit_note",
     "Document Processing": "description",
-    "Voice Input": "mic",
     "About TextMorph": "info",
     "API / Service Status": "monitor_heart",
 }
-VOICE_LANGS = {"English (India)": "en-IN", "English (US)": "en-US", "English (UK)": "en-GB", "Hindi": "hi-IN"}
 EDITOR_MODES = ("summarize", "paraphrase", "document")
 MODE_LABEL = {"summarize": "Summarization", "paraphrase": "Paraphrasing", "document": "Document"}
 
@@ -122,8 +118,6 @@ def init_state():
         "api_last": None,       # result of the last real pipeline request
         "dark_mode": True,
         "nav_page": NAV_PAGES[0],
-        "voice_text": "",
-        "voice_last_id": None,
         "uploader_n": 0,
         "upload_msg": None,
         "w_method": "Extractive",
@@ -131,7 +125,6 @@ def init_state():
         "w_doc_task": "Summarize",
         "w_chunking": True,
         "w_chunk_words": 600,
-        "w_voice_lang": "English (India)",
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -139,7 +132,7 @@ def init_state():
 
 
 # Widget keys that should survive navigation between pages.
-_KEEP = ("w_method", "w_length", "w_doc_task", "w_chunking", "w_chunk_words", "w_voice_lang", "voice_text", "dark_mode")
+_KEEP = ("w_method", "w_length", "w_doc_task", "w_chunking", "w_chunk_words", "dark_mode")
 
 
 def keep_alive():
@@ -194,18 +187,6 @@ def on_upload(ukey: str):
         "success",
         f"Extracted {meta['words']:,} words from {uploaded.name} ({meta['format']}{pages}). Review the text below before processing.",
     )
-
-
-def send_voice_to(page: str):
-    text = st.session_state.voice_text.strip()
-    if text:
-        set_input_everywhere(text)
-        st.session_state.nav_page = page
-
-
-def clear_voice():
-    st.session_state.voice_text = ""
-    st.session_state.voice_last_id = None
 
 
 def do_verify():
@@ -588,7 +569,7 @@ def render_workspace(mode: str):
                 st.session_state[ekey] = st.session_state.input_text
             text = st.text_area(
                 "Input text", key=ekey, height=320, label_visibility="collapsed",
-                placeholder="Paste or type your text here, upload a document, or use Voice Input...",
+                placeholder="Paste or type your text here, or upload a document...",
             )
             st.session_state.input_text = text
             st.markdown(helpers.chips_html(helpers.text_stats(text)), unsafe_allow_html=True)
@@ -664,8 +645,8 @@ def render_dashboard():
                 unsafe_allow_html=True)
     with card("dash_actions"):
         st.markdown("<div class='tm-section-title'>Quick start</div>", unsafe_allow_html=True)
-        cols = st.columns(4)
-        for col, page in zip(cols, ["Text Summarization", "Text Paraphrasing", "Document Processing", "Voice Input"]):
+        cols = st.columns(3)
+        for col, page in zip(cols, ["Text Summarization", "Text Paraphrasing", "Document Processing"]):
             with col:
                 st.button(page, key=f"dash_go_{page}", on_click=goto, args=(page,), **STRETCH)
 
@@ -692,60 +673,6 @@ def render_dashboard():
                         unsafe_allow_html=True)
         st.caption("Session data lives in memory only and resets when the browser tab is refreshed.")
 
-
-# --------------------------------------------------------------------------
-# Voice input
-# --------------------------------------------------------------------------
-try:
-    _VOICE = components.declare_component(
-        "textmorph_voice_input", path=str(Path(__file__).parent / "components" / "voice_input"))
-except Exception:  # missing folder, etc. - the page explains this instead of crashing
-    _VOICE = None
-
-
-def render_voice():
-    st.markdown("<div class='tm-page-title'>Voice Input</div>"
-                "<div class='tm-page-desc'>Dictate text with your microphone, correct the transcript, then send it to summarization or paraphrasing.</div>",
-                unsafe_allow_html=True)
-    if _VOICE is None:
-        st.markdown(helpers.callout_html(
-            "error", "Voice component not found",
-            "Expected the folder components/voice_input/ (with index.html) next to app.py."), unsafe_allow_html=True)
-        return
-
-    with card("voice_capture"):
-        st.markdown("<div class='tm-section-title'>1. Capture speech</div>", unsafe_allow_html=True)
-        st.radio("Recognition language", list(VOICE_LANGS), key="w_voice_lang", horizontal=True)
-        # Must run before the transcript text_area below so new speech can be written into its state.
-        value = _VOICE(lang=VOICE_LANGS[st.session_state.w_voice_lang], dark=bool(st.session_state.dark_mode),
-                       key="tm_voice", default=None)
-        if isinstance(value, dict) and value.get("id") and value["id"] != st.session_state.voice_last_id:
-            st.session_state.voice_last_id = value["id"]
-            st.session_state.voice_text = (st.session_state.voice_text + " " + str(value.get("text", ""))).strip()
-        st.markdown(helpers.callout_html(
-            "info", "How this works",
-            "Speech is recognised by your browser's built-in speech service (works in Google Chrome and Microsoft Edge; "
-            "not in Firefox). In Chrome, the audio is sent to Google's speech servers for recognition, so an internet "
-            "connection is required. TextMorph itself never records or stores audio. Your browser will ask for "
-            "microphone permission the first time; the page must be opened via localhost or HTTPS."), unsafe_allow_html=True)
-
-    st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
-    with card("voice_edit"):
-        st.markdown("<div class='tm-section-title'>2. Review and edit the transcript</div>", unsafe_allow_html=True)
-        transcript = st.text_area("Transcript", key="voice_text", height=220, label_visibility="collapsed",
-                                  placeholder="Recognised speech appears here. You can also type or correct it.")
-        st.markdown(helpers.chips_html(helpers.text_stats(transcript)), unsafe_allow_html=True)
-        st.markdown("<div class='tm-section-title'>3. Send it to a tool</div>", unsafe_allow_html=True)
-        c1, c2, c3 = st.columns(3)
-        empty = not transcript.strip()
-        with c1:
-            st.button("Send to Summarization", key="voice_to_sum", type="primary", disabled=empty,
-                      on_click=send_voice_to, args=("Text Summarization",), **STRETCH)
-        with c2:
-            st.button("Send to Paraphrasing", key="voice_to_par", disabled=empty,
-                      on_click=send_voice_to, args=("Text Paraphrasing",), **STRETCH)
-        with c3:
-            st.button("Clear transcript", key="voice_clear", on_click=clear_voice, **STRETCH)
 
 
 # --------------------------------------------------------------------------
@@ -774,7 +701,7 @@ def render_about():
   <div class='tm-info-card'><h4>Where it helps</h4>
     <ul><li>News articles and research papers</li><li>Book chapters, essays and reports</li><li>Business documents and meeting notes</li><li>Emails that need a different tone</li></ul></div>
   <div class='tm-info-card'><h4>Technology</h4>
-    <ul><li>Python and Streamlit</li><li>Hugging Face Inference API</li><li>SummarizationPipeline (extractive, abstractive, paraphrase)</li><li>Browser speech recognition for voice typing</li><li>pypdf and python-docx for document text extraction</li></ul></div>
+    <ul><li>Python and Streamlit</li><li>Hugging Face Inference API</li><li>SummarizationPipeline (extractive, abstractive, paraphrase)</li><li>pypdf and python-docx for document text extraction</li></ul></div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -835,8 +762,6 @@ elif page == "Text Paraphrasing":
     render_workspace("paraphrase")
 elif page == "Document Processing":
     render_workspace("document")
-elif page == "Voice Input":
-    render_voice()
 elif page == "About TextMorph":
     render_about()
 else:
