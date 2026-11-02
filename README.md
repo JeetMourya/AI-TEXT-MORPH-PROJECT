@@ -38,8 +38,9 @@ The demo depends on external AI APIs. If it is slow or returns an error, open **
 
 ## 📸 Screenshots
 
-![TextMorph interface](textmorph-summarizer.png)
-![TextMorph interface](assets/screenshot2.png)
+![TextMorph interface](## 📸 Screenshots
+
+![TextMorph Summarization](assets/textmorph-summarizer.png))
 
 ## ✨ Key Features
 
