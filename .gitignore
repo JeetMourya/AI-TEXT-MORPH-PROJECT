@@ -1,0 +1,23 @@
+﻿# Environment variables and API secrets
+.env
+.env.*
+!.env.example
+configure/.env
+configure/.env.*
+
+# Python virtual environments
+venv/
+.venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Streamlit
+.streamlit/secrets.toml
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

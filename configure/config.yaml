@@ -1,0 +1,158 @@
+# Text Morph Configuration File
+# This file contains all configuration settings for the application
+
+# Application Settings
+app:
+  name: "Text Morph"
+  version: "1.0.0"
+  description: "AI-Powered Text Summarization & Paraphrasing Platform"
+  author: "Jeev"
+  page_title: "Text Morph - AI Text Processing"
+  page_icon: "🔮"
+  layout: "wide"
+  initial_sidebar_state: "expanded"
+
+# API Configuration
+api:
+  huggingface:
+    base_url: "https://api-inference.huggingface.co/models"
+    model_name: "facebook/bart-large-cnn"
+    timeout: 60
+    max_retries: 3
+    retry_delay: 2
+  
+  groq:
+    base_url: "https://api.groq.com/openai/v1/chat/completions"
+    model_name: "llama-3.1-8b-instant"
+    timeout: 60
+    max_retries: 3
+    retry_delay: 2
+
+# Model Parameters
+summarization:
+  extractive:
+    short:
+      max_length: 60
+      min_length: 30
+    medium:
+      max_length: 130
+      min_length: 60
+    long:
+      max_length: 200
+      min_length: 130
+    do_sample: false
+  
+  abstractive:
+    short:
+      max_length: 60
+      min_length: 30
+    medium:
+      max_length: 130
+      min_length: 60
+    long:
+      max_length: 200
+      min_length: 130
+    do_sample: true
+    temperature: 0.7
+    top_p: 0.9
+
+paraphrasing:
+  num_return_sequences: 3
+  temperature: 0.9
+  max_tokens: 400
+  system_prompt: "You are a helpful AI that paraphrases text naturally and clearly."
+  user_prompt_template: "Paraphrase the following text in natural English. Provide {num_sequences} unique variations:\n\n{text}"
+
+# Text Processing Limits
+limits:
+  max_input_length: 10000  # characters
+  min_input_length: 10     # characters
+  max_word_count: 2000     # words
+  min_word_count: 5        # words
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"
+  
+  # File logging
+  file:
+    enabled: true
+    path: "logs"
+    filename: "text_morph.log"
+    max_bytes: 10485760  # 10MB
+    backup_count: 5
+    encoding: "utf-8"
+  
+  # Console logging
+  console:
+    enabled: true
+    colored: true
+
+# UI Theme Configuration
+theme:
+  colors:
+    primary: "#667eea"
+    secondary: "#764ba2"
+    accent: "#ec4899"
+    background: "#f8f9fa"
+    text: "#2d3748"
+    text_secondary: "#4a5568"
+  
+  gradients:
+    header: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    footer: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    card: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)"
+
+# Error Messages
+error_messages:
+  api_key_missing: "⚠️ API key not found. Please check your .env file."
+  api_error: "❌ API Error: {status_code} - {message}"
+  timeout: "❌ Request timeout. Please try again."
+  model_loading: "⚠️ Model is loading. Please try again in a few moments."
+  invalid_input: "⚠️ Invalid input. Please check your text."
+  empty_input: "⚠️ No text provided. Please enter some text."
+  too_long: "⚠️ Text too long. Maximum {max_length} characters allowed."
+  too_short: "⚠️ Text too short. Minimum {min_length} characters required."
+  general_error: "❌ An error occurred: {error}"
+
+# Success Messages
+success_messages:
+  summary_generated: "✅ Summary Generated Successfully!"
+  paraphrase_generated: "✅ Text Paraphrased Successfully!"
+  pipeline_initialized: "✅ {component} loaded"
+  api_connected: "✅ Connected to {service}"
+
+# Cache Configuration
+cache:
+  enabled: true
+  ttl: 3600  # seconds (1 hour)
+  max_size: 100  # maximum cached items
+
+# Feature Flags
+features:
+  enable_extractive: true
+  enable_abstractive: true
+  enable_paraphrasing: true
+  enable_download: true
+  enable_stats: true
+  enable_examples: true
+  enable_how_it_works: true
+
+# Export Settings
+export:
+  filename_prefix: "text_morph"
+  summary_suffix: "_summary"
+  paraphrase_suffix: "_paraphrase"
+  file_extension: ".txt"
+  encoding: "utf-8"
+
+# Performance Settings
+performance:
+  enable_caching: true
+  cache_ttl: 3600
+  rate_limit:
+    enabled: true
+    max_requests_per_minute: 30
+    max_requests_per_hour: 100
