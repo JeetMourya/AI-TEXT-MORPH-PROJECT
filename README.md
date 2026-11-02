@@ -23,7 +23,7 @@
 
 **TextMorph** is a Streamlit web application developed as a B.Tech 5th-semester Cornerstone Project. It condenses long text into summaries and rewrites text in different words while keeping the original meaning.
 
-Input can be typed or pasted text, an uploaded PDF, DOCX or TXT file, or speech dictated through the browser. Each result comes with word, character and sentence counts, compression figures and processing time, all calculated from the actual output.
+Input can be typed or pasted text, an uploaded PDF, DOCX or TXT file, . Each result comes with word, character and sentence counts, compression figures and processing time, all calculated from the actual output.
 
 Two summarization approaches are available:
 
@@ -49,7 +49,6 @@ The demo depends on external AI APIs. If it is slow or returns an error, open **
 | **Paraphrasing** | Rewrites text using an AI model and returns multiple rewritten versions |
 | **Document upload** | Extracts text from PDF, DOCX and TXT files, then lets you review it before processing |
 | **Long-text handling** | Optionally splits long text into sections, processes each, and combines the results |
-| **Voice input** | Dictation through the browser's speech recognition, with an editable transcript |
 | **Dashboard** | Session statistics and a history of recent processing runs |
 | **API / Service Status** | Separate checks for key presence, token verification and the last real request |
 | **Export** | Copy the output or download it as a `.txt` file |
@@ -69,7 +68,6 @@ The Streamlit front end (`app.py` and `tm_ui/`) sends text to a single backend c
 
 ```mermaid
 flowchart TD
-    A["User input: typed text, PDF/DOCX/TXT upload, voice transcript"] --> B["Streamlit UI (app.py, tm_ui)"]
     B --> P["Text extraction, counters and chunking (tm_ui/helpers.py)"]
     P --> C{"Selected task"}
     C -->|Summarize| D["SummarizationPipeline (src/combinedPipeline.py)"]
@@ -96,11 +94,10 @@ flowchart TD
 | PyPDF | Text extraction from PDF files |
 | python-docx | Text extraction from DOCX files |
 | NLTK, Scikit-learn, NumPy | Text processing for the extractive summarizer |
-| Web Speech API (browser) | Voice input |
 
 ## 🔄 Application Workflow
 
-1. Provide text by typing or pasting, uploading a document, or dictating through the microphone.
+1. Provide text by typing or pasting, uploading a document.
 2. Review and edit the text. The app shows live word, character and sentence counts.
 3. Choose an action: summarize (method and length) or paraphrase.
 4. For long documents, optionally enable section-based processing.
@@ -115,8 +112,6 @@ AI-TEXT-MORPH-PROJECT/
 ├── .devcontainer/        # Dev container configuration
 ├── assets/               # Screenshots
 ├── components/
-│   └── voice_input/
-│       └── index.html    # Browser speech-recognition component
 ├── configure/            # Configuration files
 ├── docs/                 # Documentation
 ├── src/
@@ -192,7 +187,6 @@ GROQ_API_KEY = "your_groq_api_key"
 2. **Text Summarization:** paste text, choose *Extractive* or *Abstractive*, choose a length, and click **Generate summary**.
 3. **Text Paraphrasing:** paste text and click **Paraphrase text**.
 4. **Document Processing:** upload a PDF, DOCX or TXT file, check the extracted text, choose *Summarize* or *Paraphrase*, and optionally enable section-based processing for long documents.
-5. **Voice Input:** pick a language, click the microphone, speak, edit the transcript, then send it to summarization or paraphrasing.
 6. **Output:** use **Copy output** or **Download .txt**, or **Clear output** to reset.
 
 ## 📡 API / Service Status
@@ -213,7 +207,6 @@ Failures are classified as invalid key, rate limit reached, network error or API
 
 - Abstractive summarization and paraphrasing need internet access and depend on external API availability and rate limits.
 - PDF extraction works only for text-based PDFs. Scanned documents need OCR, which is not included. Legacy `.doc` files are not supported.
-- Voice input works in Chromium-based browsers such as Chrome and Edge. Recognition is performed by the browser's speech service, not by TextMorph.
 - Dashboard history is stored in the browser session only and resets on refresh.
 - The status page verifies the Hugging Face token. The Groq key is checked only through real requests.
 
@@ -230,7 +223,6 @@ Failures are classified as invalid key, rate limit reached, network error or API
 - API keys are read from `src/.env` or Streamlit secrets and are never displayed in the interface.
 - Keep `.env` out of version control and rotate any key that has been exposed.
 - Text submitted for abstractive summarization or paraphrasing is sent to the Groq API. Do not submit confidential or personal documents unless this is acceptable.
-- With voice input, the browser may send audio to its speech-recognition provider. TextMorph does not record or store audio.
 - Uploaded documents are processed in the app session for text extraction.
 
 ## 👥 Contributors / Author
