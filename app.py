@@ -29,6 +29,14 @@ from tm_ui import api_status, helpers, theme
 env_path = src_path / ".env"
 load_dotenv(dotenv_path=env_path)
 
+try:
+    if not os.getenv("GROQ_API_KEY"):
+        groq_key = st.secrets.get("GROQ_API_KEY")
+        if groq_key:
+            os.environ["GROQ_API_KEY"] = groq_key
+except Exception:
+    pass
+
 st.set_page_config(
     page_title="TextMorph - AI Summarization & Paraphrasing",
     page_icon="\u2726",

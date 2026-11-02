@@ -11,3 +11,4 @@ requests
 pyyaml
 pypdf
 python-docx
+groq
