@@ -13,7 +13,7 @@
 
 *Summarize and paraphrase text, documents and spoken input through a clean, responsive web interface.*
 
-[Live Demo](https://textmorph-jeet.streamlit.app/) · [Source Code](https://github.com/JeetMourya/AI-TEXT-MORPH-PROJECT) · [Report an Issue](https://github.com/JeetMourya/AI-TEXT-MORPH-PROJECT/issues)
+[Live Demo](https://text-summarization-and-paraphrasing.streamlit.app/) · [Source Code](https://github.com/JeetMourya/AI-TEXT-MORPH-PROJECT) · [Report an Issue](https://github.com/JeetMourya/AI-TEXT-MORPH-PROJECT/issues)
 
 </div>
 
