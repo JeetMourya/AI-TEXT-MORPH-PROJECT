@@ -12,3 +12,5 @@ pyyaml
 pypdf
 python-docx
 groq
+
+pytesseract==0.3.13
