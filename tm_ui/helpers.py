@@ -4,6 +4,11 @@ import html
 import re
 from io import BytesIO
 
+import pytesseract
+from PIL import Image
+
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
 
 class ExtractionError(Exception):
     """Raised when an uploaded document cannot be extracted safely."""
@@ -63,6 +68,14 @@ def extract_text_from_upload(filename: str, data: bytes):
         if name.endswith(".txt"):
             text = data.decode("utf-8-sig", errors="replace")
             fmt, meta = "TXT", {}
+
+        elif name.endswith((".png", ".jpg", ".jpeg")):
+            import pytesseract
+            from PIL import Image
+            image = Image.open(BytesIO(data))
+            text = pytesseract.image_to_string(image)
+            fmt, meta = "Image (OCR)", {}
+         
         elif name.endswith(".pdf"):
             from pypdf import PdfReader
             reader = PdfReader(BytesIO(data))

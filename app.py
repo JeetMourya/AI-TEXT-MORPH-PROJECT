@@ -13,10 +13,14 @@ import sys
 import time
 import urllib.error
 import urllib.request
+import pytesseract
+from PIL import Image
 from datetime import datetime
 from pathlib import Path
 
 import streamlit as st
+
+
 
 # --------------------------------------------------------------------------
 # Environment + Hugging Face key resolution.
@@ -1047,10 +1051,14 @@ def render_workspace(mode: str):
     if mode == "document":
         with card("doc_upload"):
             panel_title("Upload a document", "Drag and drop a file, or browse. Scanned PDFs are not supported (no OCR).")
+            # st.markdown("<div class='tm-formats'><span class='tm-format'>PDF</span><span class='tm-format'>DOCX</span>"
+            #             "<span class='tm-format'>TXT</span><span class='tm-format'>PNG</span><span class='tm-format'>JPG</span><span class='tm-format'>JPEG</span></div>", unsafe_allow_html=True)
+
             st.markdown("<div class='tm-formats'><span class='tm-format'>PDF</span><span class='tm-format'>DOCX</span>"
-                        "<span class='tm-format'>TXT</span></div>", unsafe_allow_html=True)
+                        "<span class='tm-format'>TXT</span><span class='tm-format'>PNG</span><span class='tm-format'>JPG</span></div>", unsafe_allow_html=True)
+
             ukey = f"upload_{mode}_{st.session_state.uploader_n}"
-            uploaded = st.file_uploader("Document", type=["pdf", "docx", "txt"], key=ukey,
+            uploaded = st.file_uploader("Document", type=["pdf", "docx", "txt", "png", "jpg", "jpeg"], key=ukey,
                                         on_change=on_upload, args=(ukey,), label_visibility="collapsed")
             msg = st.session_state.upload_msg
             if uploaded is not None and msg and msg[0] == "success":
@@ -1097,8 +1105,8 @@ def render_workspace(mode: str):
                         "Review and edit before processing." if mode == "document" else "Paste or type your text.")
             if mode != "document":
                 ukey = f"upload_{mode}_{st.session_state.uploader_n}"
-                with st.expander("Upload a document (PDF, DOCX, TXT)"):
-                    st.file_uploader("Document", type=["pdf", "docx", "txt"], key=ukey,
+                with st.expander("Upload a document (PDF, DOCX, TXT, PNG, JPG, JPEG)"):
+                    st.file_uploader("Document", type=["pdf", "docx", "txt", "png", "jpg", "jpeg"], key=ukey,
                                      on_change=on_upload, args=(ukey,), label_visibility="collapsed")
                     msg = st.session_state.upload_msg
                     if msg:
