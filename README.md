@@ -19,7 +19,7 @@
 
 ---
 
-## – Project Overview
+## ?? – Project Overview
 
 **TextMorph** is a Streamlit web application developed as a B.Tech 5th-semester Cornerstone Project. It condenses long text into summaries and rewrites text in different words while keeping the original meaning.
 
@@ -30,14 +30,14 @@ Two summarization approaches are available:
 - **Extractive**: selects the most important sentences from the original text.
 - **Abstractive**: generates a new summary with an AI language model.
 
-##  Live Demo
+## ??  Live Demo
 
 **https://text-summarization-and-paraphrasing.streamlit.app/**
 
 The demo depends on external AI APIs. If it is slow or returns an error, open **API / Service Status** in the sidebar for guidance.
 
 
-##  Key Features
+## ?  Key Features
 
 | Area | What it does |
 |------|--------------|
@@ -51,7 +51,7 @@ The demo depends on external AI APIs. If it is slow or returns an error, open **
 | **Interface** | Dark and light themes, sidebar navigation, responsive layout |
 | **Text analysis** | Word, character and sentence counts, compression or length change, and processing time |
 
-##   AI Architecture and Backend
+## ??   AI Architecture and Backend
 
 The Streamlit front end (`app.py` and `tm_ui/`) sends text to a single backend class, `SummarizationPipeline`, defined in `src/combinedPipeline.py`.
 
@@ -77,7 +77,7 @@ flowchart TD
 
 > Text sent for abstractive summarization or paraphrasing is processed by the Groq API, so an internet connection and a valid API key are required for those features.
 
-## Technologies Used
+## ??? Technologies Used
 
 | Technology | Purpose |
 |------------|---------|
@@ -91,7 +91,7 @@ flowchart TD
 | python-docx | Text extraction from DOCX files |
 | NLTK, Scikit-learn, NumPy | Text processing for the extractive summarizer |
 
-##  Application Workflow
+## ??  Application Workflow
 
 1. Provide text by typing or pasting, uploading a document.
 2. Review and edit the text. The app shows live word, character and sentence counts.
@@ -101,7 +101,7 @@ flowchart TD
 6. The result appears with metrics. Copy it or download it as `.txt`.
 7. The run is added to the Dashboard history and the API status is updated.
 
-##  Project Folder Structure
+## ??  Project Folder Structure
 
 ```
 AI-TEXT-MORPH-PROJECT/
@@ -124,7 +124,7 @@ AI-TEXT-MORPH-PROJECT/
 â””â”€â”€ README.md
 ```
 
-## Installation and Local Setup
+## ?? Installation and Local Setup
 
 **Prerequisites:** Python 3.10 or newer (recommended), a Groq API key and a Hugging Face token.
 
@@ -147,7 +147,7 @@ streamlit run app.py
 
 Open `http://localhost:8501` in your browser.
 
-##  Environment Variables and API Configuration
+## ??  Environment Variables and API Configuration
 
 The app loads keys from **`src/.env`**. Create this file locally:
 
@@ -163,7 +163,7 @@ GROQ_API_KEY=your_groq_api_key
 
 >  **Never commit `.env` to GitHub.** Confirm that `.env` is listed in `.gitignore`. If a real key was ever pushed, revoke it and create a new one.
 
-##  Streamlit Cloud Deployment
+## ??  Streamlit Cloud Deployment
 
 1. Push the repository to GitHub without any `.env` file.
 2. On [Streamlit Community Cloud](https://share.streamlit.io), create a new app from this repository.
@@ -177,7 +177,7 @@ GROQ_API_KEY = "your_groq_api_key"
 
 5. Deploy. The app reads these values from Streamlit secrets when no `.env` file is present. The Hugging Face token can also be stored under the name `HF_TOKEN`.
 
-##  How to Use the Application
+## ??  How to Use the Application
 
 1. **Dashboard:** open a tool and review session statistics and recent activity.
 2. **Text Summarization:** paste text, choose *Extractive* or *Abstractive*, choose a length, and click **Generate summary**.
@@ -185,7 +185,7 @@ GROQ_API_KEY = "your_groq_api_key"
 4. **Document Processing:** upload a PDF, DOCX or TXT file, check the extracted text, choose *Summarize* or *Paraphrase*, and optionally enable section-based processing for long documents.
 6. **Output:** use **Copy output** or **Download .txt**, or **Clear output** to reset.
 
-##  API / Service Status
+## ??  API / Service Status
 
 The **API / Service Status** page keeps three checks separate:
 
@@ -197,7 +197,7 @@ The **API / Service Status** page keeps three checks separate:
 
 Failures are classified as invalid key, rate limit reached, network error or API unavailable, each with retry guidance. Token verification does not prove that the Groq model is reachable. Only a successful real request does.
 
-##  Limitations and Future Improvements
+## ??  Limitations and Future Improvements
 
 **Current limitations**
 
@@ -214,14 +214,14 @@ Failures are classified as invalid key, rate limit reached, network error or API
 - Multi-language summarization.
 - Automated tests and CI.
 
-##  Security Notes
+## ??  Security Notes
 
 - API keys are read from `src/.env` or Streamlit secrets and are never displayed in the interface.
 - Keep `.env` out of version control and rotate any key that has been exposed.
 - Text submitted for abstractive summarization or paraphrasing is sent to the Groq API. Do not submit confidential or personal documents unless this is acceptable.
 - Uploaded documents are processed in the app session for text extraction.
 
-##  Contributors / Author
+## ?????  Contributors / Author
 
 Developed by **Jeet Mourya** ([@JeetMourya](https://github.com/JeetMourya)) and **Karan** as a B.Tech 5th-semester Cornerstone Project.
 
@@ -233,7 +233,7 @@ Developed by **Jeet Mourya** ([@JeetMourya](https://github.com/JeetMourya)) and 
 
 </div>
 
-##  Application Screenshots
+## ??  Application Screenshots
 ### Dashboard
 ![TextMorph Dashboard](assets/textmorph-dashboard.png)
 
