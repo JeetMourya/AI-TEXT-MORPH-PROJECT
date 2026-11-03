@@ -236,3 +236,18 @@ Developed by **Jeet Mourya** ([@JeetMourya](https://github.com/JeetMourya)) and 
 **TextMorph â€“ AI-Powered Text Summarization & Paraphrasing System**
 
 </div>
+
+## ?? Application Screenshots
+
+### Dashboard
+![TextMorph Dashboard](assets/textmorph-dashboard.png)
+
+### Text Summarization – Abstractive
+![Abstractive Summarization](assets/textmorph-summarizer-abstractive.png)
+
+### Text Summarization – Extractive
+![Extractive Summarization](assets/textmorph-summarizer-extractive.png)
+
+### Text Paraphrasing
+![Text Paraphrasing](assets/textmorph-paraphraser.png)
+
